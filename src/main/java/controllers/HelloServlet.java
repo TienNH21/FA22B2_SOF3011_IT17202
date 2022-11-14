@@ -1,6 +1,9 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,9 +23,18 @@ public class HelloServlet extends HttpServlet {
 		HttpServletResponse response
 	) throws ServletException, IOException {
 		String user = request.getParameter("user");
-		String data = user == null ? "World" : user;
+		String data = user == null ? "" : user;
+
+		List<String> ds = new ArrayList<>();
+		ds.add("COM108");
+		ds.add("COM1071");
+		ds.add("SOF203");
+		ds.add("SOF3011");
+
 		request.setAttribute("data", data);
-		request.getRequestDispatcher("/views/hello.jsp")
+		request.setAttribute("ds", ds);
+		request.setAttribute("view", "/views/hello.jsp");
+		request.getRequestDispatcher("/views/layout.jsp")
 			.forward(request, response);
 	}
 
@@ -35,4 +47,24 @@ public class HelloServlet extends HttpServlet {
 		.forward(request, response);
 	}
 
+
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("HelloServlet@service");
+		super.service(req, resp);
+	}
+
+	@Override
+	public void destroy() {
+		System.out.println("HelloServlet@destroy");
+		super.destroy();
+	}
+
+	@Override
+	public void init() throws ServletException {
+		System.out.println("HelloServlet@init");
+		super.init();
+	}
+
+	
 }
