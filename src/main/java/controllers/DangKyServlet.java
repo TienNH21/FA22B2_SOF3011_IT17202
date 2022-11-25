@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,17 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import entities.SinhVien;
 import models.DangKyModel;
+import repository.SinhVienRepository;
+import utils.JpaUtil;
 
 @WebServlet({
 	"/dang-ky/get-form",
 	"/dang-ky/submit",
 })
 public class DangKyServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private SinhVienRepository svRepo;
        
     public DangKyServlet() {
         super();
+        this.svRepo = new SinhVienRepository();
     }
 
 	protected void doGet(
@@ -40,12 +45,22 @@ public class DangKyServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		System.out.println(model.getHoTen());
-		System.out.println(model.getEmail());
-		System.out.println(model.getSdt());
-		System.out.println(model.getDiaChi());
-		System.out.println(model.getGioiTinh());
-		System.out.println(model.getChuyenNganh());
+		SinhVien sv = new SinhVien();
+		sv.setAvatar(null);
+		sv.setPassword("123456");
+		sv.setHoTen( model.getHoTen() );
+		sv.setEmail( model.getEmail() );
+		sv.setSdt( model.getSdt() );
+		sv.setDiaChi( model.getDiaChi() );
+		sv.setChuyenNganhId( model.getChuyenNganh() );
+		sv.setGioiTinh( model.getGioiTinh() );
+		try {
+			this.svRepo.insert(sv);
+		} catch (Exception e) {
+			// Báo lỗi
+			
+			e.printStackTrace();
+		}
 
 		response.sendRedirect("/IT17202/dang-ky/get-form");
 	}
