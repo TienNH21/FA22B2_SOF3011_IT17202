@@ -1,6 +1,10 @@
 package repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import entities.SinhVien;
 import utils.JpaUtil;
@@ -40,7 +44,6 @@ public class SinhVienRepository {
 		}
 	}
 
-	
 	public void delete(SinhVien sv) throws Exception
 	{
 		try {
@@ -52,5 +55,20 @@ public class SinhVienRepository {
 			em.getTransaction().rollback();
 			throw e;
 		}
+	}
+	
+	public List<SinhVien> getAll()
+	{
+//		String sql = "SELECT * FROM sinh_vien";
+		String jpql = "SELECT sv FROM SinhVien sv";
+		TypedQuery<SinhVien> query =
+			this.em.createQuery(jpql, SinhVien.class);
+		
+		return query.getResultList();
+	}
+	
+	public SinhVien findById(int id)
+	{
+		return this.em.find(SinhVien.class, id);
 	}
 }
