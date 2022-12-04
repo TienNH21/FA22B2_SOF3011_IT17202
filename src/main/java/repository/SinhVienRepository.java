@@ -71,4 +71,23 @@ public class SinhVienRepository {
 	{
 		return this.em.find(SinhVien.class, id);
 	}
+	
+	public SinhVien login(String email, String password)
+	{
+		String jpql = "SELECT sv FROM SinhVien sv "
+				+ "WHERE sv.email = :email "
+				+ "AND sv.password = :password";
+		try {
+			TypedQuery<SinhVien> query =
+				this.em.createQuery(jpql, SinhVien.class);
+			query.setParameter("email", email);
+			query.setParameter("password", password);
+			SinhVien sv = query.getSingleResult();
+			return sv;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

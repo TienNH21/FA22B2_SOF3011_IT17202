@@ -17,8 +17,12 @@ public class Lop implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="chuyen_nganh_id")
-	private int chuyenNganhId;
+//	@Column(name="chuyen_nganh_id")
+//	private int chuyenNganhId;
+	// https://shareprogramming.net/diem-khac-nhau-giua-lazy-va-eager-trong-hibernate-va-jpa/
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="chuyen_nganh_id")
+	private ChuyenNganh chuyenNganh;
 
 	private int khoa;
 
@@ -38,12 +42,12 @@ public class Lop implements Serializable {
 		this.id = id;
 	}
 
-	public int getChuyenNganhId() {
-		return this.chuyenNganhId;
+	public ChuyenNganh getChuyenNganh() {
+		return chuyenNganh;
 	}
 
-	public void setChuyenNganhId(int chuyenNganhId) {
-		this.chuyenNganhId = chuyenNganhId;
+	public void setChuyenNganh(ChuyenNganh chuyenNganh) {
+		this.chuyenNganh = chuyenNganh;
 	}
 
 	public int getKhoa() {

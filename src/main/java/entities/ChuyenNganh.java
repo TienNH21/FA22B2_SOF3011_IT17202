@@ -1,6 +1,8 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -21,6 +23,9 @@ public class ChuyenNganh implements Serializable {
 
 	@Column(name="ten")
 	private String ten;
+	
+	@OneToMany(mappedBy="chuyenNganh")
+	private List<Lop> dsLop;
 
 	public ChuyenNganh() {
 	}
